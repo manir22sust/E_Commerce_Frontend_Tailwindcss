@@ -4,12 +4,11 @@ const initialState = {
   value: 0,
 };
 
-export const productListSlice = createSlice({
-  name: "productList",
+export const productSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
     increment: (state) => {
-     
       state.value += 1;
     },
     decrement: (state) => {
@@ -22,6 +21,6 @@ export const productListSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = productListSlice.actions;
+export const { increment, decrement, incrementByAmount } = productSlice.actions;
 
-export default productListSlice.reducer;
+export default productSlice.reducer;
