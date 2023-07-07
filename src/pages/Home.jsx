@@ -1,9 +1,7 @@
 import React from "react";
 
 import Navbar from "../app/features/navbar/Navbar";
-import ProductList from "../app/features/productList/components/ProductList";
-import { LoginPage } from "./LoginPage";
-import { SignupPage } from "./SignupPage";
+import ProductList from "../app/features/product/components/ProductList";
 
 export default function Home() {
   return (
@@ -11,9 +9,6 @@ export default function Home() {
       <Navbar>
         <ProductList></ProductList>
       </Navbar>
-      {/* <LoginPage /> */}
-
-      {/* <SignupPage /> */}
     </div>
   );
 }
