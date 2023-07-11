@@ -152,7 +152,7 @@ export const Checkout = () => {
                   <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-3">
                       <label
-                        htmlFor="first-name"
+                        htmlFor="firstName"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         First name
@@ -160,10 +160,10 @@ export const Checkout = () => {
                       <div className="mt-2">
                         <input
                           type="text"
-                          {...register("first-name", {
-                            required: "first-name is required",
+                          {...register("firstName", {
+                            required: "first name is required",
                           })}
-                          id="first-name"
+                          id="firstName"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -171,7 +171,7 @@ export const Checkout = () => {
 
                     <div className="sm:col-span-3">
                       <label
-                        htmlFor="last-name"
+                        htmlFor="lastName"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Last name
@@ -179,10 +179,10 @@ export const Checkout = () => {
                       <div className="mt-2">
                         <input
                           type="text"
-                          {...register("last-name", {
-                            required: "last-name is required",
+                          {...register("lastName", {
+                            required: "last name is required",
                           })}
-                          id="last-name"
+                          id="lastName"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -312,10 +312,10 @@ export const Checkout = () => {
                       <div className="mt-2">
                         <input
                           type="text"
-                          {...register("postal-code", {
+                          {...register("postCode", {
                             required: "postal code is required",
                           })}
-                          id="postal-code"
+                          id="postCode"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -359,7 +359,7 @@ export const Checkout = () => {
                           />
                           <div className="min-w-0 flex-auto">
                             <p className="text-sm font-semibold leading-6 text-gray-900">
-                              {address.name}
+                              {address.firstName} {address.lastName}
                             </p>
                             <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                               {address.street}
