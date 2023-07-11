@@ -61,9 +61,11 @@ export const Checkout = () => {
     reset,
     formState: { errors },
   } = useForm();
+
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.auth.loggedInUser);
+  const currentOrder = useSelector((state) => state.order.currentOrder);
   const [selectedAddress, SetSelectedAddress] = useState(null);
   const [payMenthod, SetPayMenthod] = useState("cash");
 
@@ -91,15 +93,20 @@ export const Checkout = () => {
   };
 
   const handleOrder = (e) => {
-    const order = {
-      items,
-      totalAmount,
-      totalItems,
-      user,
-      payMenthod,
-      selectedAddress,
-    };
-    dispatch(createOrderAsync(order));
+    if (selectedAddress && payMenthod) {
+      const order = {
+        items,
+        totalAmount,
+        totalItems,
+        user,
+        payMenthod,
+        selectedAddress,
+        status: "pending", // other status can be delivered, received.
+      };
+      dispatch(createOrderAsync(order));
+    } else {
+      alert("Enter Address and Payment method");
+    }
 
     //TODO: redirect to order success page
     //TODO:clear cart after order
@@ -109,8 +116,13 @@ export const Checkout = () => {
 
   return (
     <>
-      {" "}
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {currentOrder && (
+        <Navigate
+          to={`/order-success/${currentOrder.id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">

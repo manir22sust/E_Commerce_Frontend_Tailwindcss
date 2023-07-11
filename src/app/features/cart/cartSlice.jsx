@@ -3,6 +3,7 @@ import {
   addToCart,
   deleteItemFromCart,
   fetchItemsByUserId,
+  resetCart,
   updateCart,
 } from "./cartAPI";
 
@@ -28,38 +29,45 @@ export const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addToCartAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(addToCartAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         state.items.push(action.payload);
       })
       .addCase(fetchItemsByUserIdAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(fetchItemsByUserIdAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         state.items = action.payload;
       })
       .addCase(updateCartAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(updateCartAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         const index = state.items.findIndex(
           (item) => item.id === action.payload.id
         );
         state.items[index] = action.payload;
       })
       .addCase(deleteItemFromCartAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(deleteItemFromCartAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         const index = state.items.findIndex(
           (item) => item.id === action.payload.id
         );
         state.items.splice(index, 1);
+      })
+      .addCase(resetCartAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(resetCartAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.items = [];
       });
   },
 });
@@ -97,6 +105,14 @@ export const deleteItemFromCartAsync = createAsyncThunk(
   "cart/ deleteItemFromCart",
   async (itemId) => {
     const response = await deleteItemFromCart(itemId);
+    return response.data;
+  }
+);
+
+export const resetCartAsync = createAsyncThunk(
+  "cart/resetCart",
+  async (userId) => {
+    const response = await resetCart(userId);
     return response.data;
   }
 );

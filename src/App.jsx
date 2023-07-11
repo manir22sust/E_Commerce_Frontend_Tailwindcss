@@ -15,6 +15,8 @@ import { Protected } from "./app/features/auth/components/Protected";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItemsByUserIdAsync } from "./app/features/cart/cartSlice";
+import { PageNotFound } from "./pages/404";
+import { OrderSuccessPage } from "./pages/OrderSuccessPage";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
         <ProductDetailPage />
       </Protected>
     ),
+  },
+  {
+    path: "order-success/:id",
+    element: <OrderSuccessPage />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 

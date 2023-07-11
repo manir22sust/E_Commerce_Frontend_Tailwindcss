@@ -44,3 +44,33 @@ export function deleteItemFromCart(itemId) {
     resolve({ data: { id: itemId } });
   });
 }
+
+// export function resetCart(userId) {
+//   //  get all items of user's cart - and then delete each
+//   return new Promise(async (resolve) => {
+//     const response = await fetchItemsByUserId(userId);
+//     const items = await response.json();
+//     for (let item in items) {
+//       await deleteItemFromCart(item.id);
+//     }
+//     resolve({ status: "success" });
+//   });
+// }
+
+export function resetCart(userId) {
+  return new Promise(async (resolve) => {
+    try {
+      const response = await fetchItemsByUserId(userId);
+      if (!response.ok) {
+        throw new Error("Failed to fetch items");
+      }
+      const items = await response.json();
+      for (let item of items) {
+        await deleteItemFromCart(item.id);
+      }
+      resolve({ status: "success" });
+    } catch (error) {
+      resolve({ status: "error", message: error.message });
+    }
+  });
+}
