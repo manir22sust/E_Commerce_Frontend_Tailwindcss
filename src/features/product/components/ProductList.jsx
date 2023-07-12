@@ -22,8 +22,7 @@ import {
   fetchCategoriesAsync,
   fetchProductsByFiltersAsync,
 } from "../productSlice";
-
-import { ITEMS_PER_PAGE } from "../../../constants";
+import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },

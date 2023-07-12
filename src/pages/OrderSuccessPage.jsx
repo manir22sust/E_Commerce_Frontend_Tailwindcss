@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { resetCartAsync } from "../app/features/cart/cartSlice";
-import { resetOrder } from "../app/features/order/orderSlice";
+import { resetCartAsync } from "../features/cart/cartSlice";
+import { resetOrder } from "../features/order/orderSlice";
 
 export const OrderSuccessPage = () => {
   const dispatch = useDispatch();

@@ -5,55 +5,10 @@ import { useForm } from "react-hook-form";
 import {
   deleteItemFromCartAsync,
   updateCartAsync,
-} from "../app/features/cart/cartSlice";
-import { updateUserAsync } from "../app/features/auth/authSlice";
-import { createOrderAsync } from "../app/features/order/orderSlice";
+} from "../features/cart/cartSlice";
+import { updateUserAsync } from "../features/auth/authSlice";
+import { createOrderAsync } from "../features/order/orderSlice";
 
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
-const addresses = [
-  {
-    name: "John Doe",
-    street: "Bahn strasse 94",
-    city: "Wuppertal",
-    postCode: 42327,
-    state: "NRW",
-    phone: 123456789,
-  },
-  {
-    name: "Boss Min",
-    street: "Bonn strasse 65",
-    city: "Düsseldorf",
-    postCode: 40237,
-    state: "NRW",
-    phone: 123456789,
-  },
-];
 export const Checkout = () => {
   const {
     register,

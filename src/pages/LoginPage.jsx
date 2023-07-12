@@ -1,9 +1,9 @@
-import { Login } from "../app/features/auth/components/Login";
+import { Login } from "../features/auth/components/Login";
 
 export const LoginPage = () => {
   return (
-    <div>
+    <>
       <Login />
-    </div>
+    </>
   );
 };
