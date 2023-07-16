@@ -5,7 +5,9 @@ import { decrement, increment } from "../userSlice";
 export function UserProfile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
-
+  // const user = useSelector((state) => state.user.userInfo);
+  const handleEdit = () => {};
+  const handleRemove = (e, index) => {};
   return (
     <>
       <div className="mx-auto mt-12 max-w-7xl bg-white px-4 py-6 sm:px-6 lg:px-8">
@@ -51,8 +53,24 @@ export function UserProfile() {
                   Phone: {address.phone}
                 </p>
                 <p className="text-sm leading-6 text-gray-900">
-                  {address.city}
+                  City: {address.city}
                 </p>
+              </div>
+              <div className="hidden sm:flex sm:flex-col sm:items-end">
+                <button
+                  onClick={(e) => handleEdit(e, index)}
+                  type="button"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={(e) => handleRemove(e, index)}
+                  type="button"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           ))}

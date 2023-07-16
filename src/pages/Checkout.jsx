@@ -7,7 +7,9 @@ import {
   updateCartAsync,
 } from "../features/cart/cartSlice";
 import { updateUserAsync } from "../features/auth/authSlice";
+
 import { createOrderAsync } from "../features/order/orderSlice";
+// import { updateUserAsync } from "../features/user/userSlice";
 
 export const Checkout = () => {
   const {
@@ -20,8 +22,12 @@ export const Checkout = () => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.auth.loggedInUser);
+  // const user = useSelector((state) => state.user.userInfo);
   const currentOrder = useSelector((state) => state.order.currentOrder);
-  const [selectedAddress, SetSelectedAddress] = useState(null);
+
+  console.log(user);
+
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [payMenthod, SetPayMenthod] = useState("cash");
 
   const totalAmount = items.reduce(
@@ -38,8 +44,13 @@ export const Checkout = () => {
   };
 
   const handleAddress = (e) => {
-    console.log(e.target.value);
-    SetSelectedAddress(user.addresses[e.target.value]);
+    const addressIndex = parseInt(e.target.value);
+    console.log("user:", user);
+    console.log("addressIndex:", addressIndex);
+
+    if (!isNaN(addressIndex)) {
+      setSelectedAddress(user.addresses[addressIndex]);
+    }
   };
 
   const handlePayment = (e) => {
@@ -92,6 +103,7 @@ export const Checkout = () => {
                     addresses: [...user.addresses, data],
                   })
                 );
+
                 reset();
               })}
             >

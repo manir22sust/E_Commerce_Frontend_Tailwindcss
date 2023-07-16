@@ -50,7 +50,7 @@ export function deleteItemFromCart(itemId) {
 //   return new Promise(async (resolve) => {
 //     const response = await fetchItemsByUserId(userId);
 //     const items = await response.json();
-//     for (let item in items) {
+//     for (let item of items) {
 //       await deleteItemFromCart(item.id);
 //     }
 //     resolve({ status: "success" });

@@ -1,7 +1,6 @@
 import "./App.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // pages
@@ -21,6 +20,9 @@ import { UserProfilePage } from "./pages/UserProfilePage";
 import { Protected } from "./features/auth/components/Protected";
 //  components
 import { Layout } from "./components/Layout";
+//  slice
+import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
+// import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
         <Layout />
       </Protected>
     ),
+
     children: [
       {
         path: "/",
@@ -80,10 +83,12 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
+  // const user = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
+      // dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
   return (
