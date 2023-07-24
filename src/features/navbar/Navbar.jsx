@@ -30,7 +30,6 @@ function classNames(...classes) {
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
 
-  console.log(items.length);
   return (
     <>
       <div className="min-h-full">

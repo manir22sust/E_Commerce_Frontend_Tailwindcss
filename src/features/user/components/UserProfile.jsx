@@ -15,7 +15,6 @@ export function UserProfile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
 
-  console.log("user", user.addresses[0].firstName, user.addresses[0].lastName);
   const user1 = useSelector((state) => state.user.userInfo);
 
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
