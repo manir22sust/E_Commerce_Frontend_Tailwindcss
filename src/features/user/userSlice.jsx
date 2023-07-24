@@ -9,7 +9,7 @@ const initialState = {
   userOrders: [],
   value: 0,
   status: "idle",
-  userInfo: null, // this info will be used in case of detailed user info,while auth will only be used  for loggedInUser id etc check
+  userInfo: 10, // this info will be used in case of detailed user info,while auth will only be used  for loggedInUser id etc check
 };
 
 export const userSlice = createSlice({
@@ -41,7 +41,8 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.userOrders = action.payload;
+        // state.userOrders = action.payload;
+        state.userInfo = action.payload;
       })
       .addCase(fetchLoggedInUserAsync.pending, (state) => {
         state.status = "loading";

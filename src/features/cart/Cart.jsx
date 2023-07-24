@@ -141,7 +141,7 @@ export default function Cart() {
               <Link to="/">
                 <button
                   type="button"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="m-2 font-medium text-indigo-600 hover:text-indigo-500"
                   onClick={() => setOpen(false)}
                 >
                   Continue Shopping

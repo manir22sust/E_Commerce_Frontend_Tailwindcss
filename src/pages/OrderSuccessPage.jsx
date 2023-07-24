@@ -7,6 +7,7 @@ import { resetOrder } from "../features/order/orderSlice";
 export const OrderSuccessPage = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
+  // const user1 = useSelector((state) => state.user.userInfo);
   const params = useParams();
   console.log(user.id);
 
