@@ -5,6 +5,9 @@ import {
   fetchBrands,
   fetchCategories,
   fetchProductsDetials,
+  fetchProductById,
+  createProduct,
+  updateProduct,
 } from "./productAPI";
 
 const initialState = {
@@ -20,14 +23,8 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    clearSelectedProduct: (state) => {
+      state.selectedProduct = null;
     },
   },
 
@@ -68,12 +65,36 @@ export const productSlice = createSlice({
       .addCase(fetchProductsDetialsByIdAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.selectedProduct = action.payload;
+      })
+      .addCase(fetchProductByIdAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchProductByIdAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.selectedProduct = action.payload;
+      })
+      .addCase(createProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.products.push(action.payload);
+      })
+      .addCase(updateProductAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        const index = state.products.findIndex(
+          (product) => product.id === action.payload.id
+        );
+        state.products[index] = action.payload;
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = productSlice.actions;
+export const { clearSelectedProduct } = productSlice.actions;
 
 export default productSlice.reducer;
 
@@ -117,6 +138,33 @@ export const fetchProductsDetialsByIdAsync = createAsyncThunk(
   "product/fetchProductsDetials",
   async (id) => {
     const response = await fetchProductsDetials(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const fetchProductByIdAsync = createAsyncThunk(
+  "product/fetchProductById",
+  async (id) => {
+    const response = await fetchProductById(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const createProductAsync = createAsyncThunk(
+  "product/createProduct",
+  async (product) => {
+    const response = await createProduct(product);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const updateProductAsync = createAsyncThunk(
+  "product/updateProduct",
+  async (product) => {
+    const response = await updateProduct(product);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }

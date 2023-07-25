@@ -86,6 +86,7 @@ export function Login() {
               <div className="mt-2">
                 <input
                   id="password"
+                  type="password"
                   {...register("password", {
                     required: "password is required",
                   })}

@@ -61,7 +61,7 @@ export function UserProfile() {
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <h1 className="my-5 text-4xl font-bold tracking-tight text-gray-900">
             Name:
-            {user.addresses[0].firstName ? (
+            {user.addresses[0].firstName !== "" ? (
               <>
                 {user.addresses[0].firstName} {user.addresses[0].lastName}
               </>
@@ -72,6 +72,11 @@ export function UserProfile() {
           <h3 className="my-5 text-xl font-bold tracking-tight text-red-900">
             Email address: {user.email}
           </h3>
+          {user.role === "admin" && (
+            <h3 className="my-5 text-xl font-bold tracking-tight text-red-900">
+              role: {user.role}
+            </h3>
+          )}
         </div>
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
