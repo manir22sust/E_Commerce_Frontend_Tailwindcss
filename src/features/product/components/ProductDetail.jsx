@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 import { fetchProductsDetialsByIdAsync } from "../productSlice";
 import { addToCartAsync } from "../../cart/cartSlice";
+import { discountedPrice } from "../../../app/constants";
 
 const product = {
   colors: [
@@ -45,12 +46,23 @@ export default function ProductDetail() {
   const user = useSelector((state) => state.auth.loggedInUser);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const items = useSelector((state) => state.cart.items);
 
   const handleCart = (e) => {
     e.preventDefault();
-    const newItem = { ...selectedProduct, quantity: 1, user: user.id };
-    delete newItem["id"];
-    dispatch(addToCartAsync(newItem));
+    if (items.findIndex((item) => item.productId === selectedProduct.id) < 0) {
+      console.log({ items, selectedProduct });
+      const newItem = {
+        ...selectedProduct,
+        productId: selectedProduct.id,
+        quantity: 1,
+        user: user.id,
+      };
+      delete newItem["id"];
+      dispatch(addToCartAsync(newItem));
+    } else {
+      console.log("already added");
+    }
   };
 
   useEffect(() => {
@@ -159,8 +171,11 @@ export default function ProductDetail() {
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">
+            <p className="text-xl tracking-tight text-gray-900 line-through">
               €{selectedProduct.price}
+            </p>
+            <p className="text-3xl tracking-tight text-gray-900">
+              €{discountedPrice(selectedProduct)}
             </p>
             {/* Reviews */}
             <div className="mt-6">

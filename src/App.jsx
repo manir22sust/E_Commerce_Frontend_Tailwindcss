@@ -28,6 +28,7 @@ import { Layout } from "./components/Layout";
 //  slice
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { Logout } from "./features/auth/components/Logout";
+import { AdminOrdersPage } from "./pages/AdminOrdersPage";
 
 // import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 
@@ -102,6 +103,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedAdmin>
         <AdminProductFormPage />
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/orders",
+    element: (
+      <ProtectedAdmin>
+        <AdminOrdersPage />
       </ProtectedAdmin>
     ),
   },
