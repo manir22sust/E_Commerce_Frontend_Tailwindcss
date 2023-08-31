@@ -19,26 +19,26 @@ export const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createOrderAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(createOrderAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         state.orders.push(action.payload);
         state.currentOrder = action.payload;
       })
       .addCase(fetchAllOrderAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(fetchAllOrderAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         state.orders = action.payload.orders;
         state.totalOrders = action.payload.totalOrders;
       })
       .addCase(updateOrderAsync.pending, (state) => {
-        state.state = "loading";
+        state.status = "loading";
       })
       .addCase(updateOrderAsync.fulfilled, (state, action) => {
-        state.state = "idle";
+        state.status = "idle";
         const index = state.orders.findIndex(
           (order) => order.id === action.payload.id
         );

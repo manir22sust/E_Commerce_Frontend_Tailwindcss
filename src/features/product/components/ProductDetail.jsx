@@ -50,11 +50,11 @@ export default function ProductDetail() {
 
   const handleCart = (e) => {
     e.preventDefault();
-    if (items.findIndex((item) => item.productId === selectedProduct.id) < 0) {
+    if (items.findIndex((item) => item.product.id === selectedProduct.id) < 0) {
       console.log({ items, selectedProduct });
       const newItem = {
         ...selectedProduct,
-        productId: selectedProduct.id,
+        product: selectedProduct.id,
         quantity: 1,
         user: user.id,
       };

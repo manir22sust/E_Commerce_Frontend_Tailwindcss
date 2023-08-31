@@ -30,7 +30,7 @@ import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { Logout } from "./features/auth/components/Logout";
 import { AdminOrdersPage } from "./pages/AdminOrdersPage";
 
-// import { fetchLoggedInUserAsync } from "./features/user/userSlice";
+import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 
 const router = createBrowserRouter([
   {

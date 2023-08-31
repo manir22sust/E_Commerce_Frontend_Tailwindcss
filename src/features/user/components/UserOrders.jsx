@@ -6,12 +6,13 @@ import { discountedPrice } from "../../../app/constants";
 export function UserOrders() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
+  // const orders = useSelector((state) => state.user.userInfo.orders);
   const orders = useSelector((state) => state.user.userOrders);
-  // const user = useSelector((state) => state.user.userInfo);
+  // const userInfo = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
     dispatch(fetchLoggedInUserOrdersAsync(user?.id));
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <div>
@@ -31,37 +32,47 @@ export function UserOrders() {
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
                     {order.items.map((item) => (
                       <li key={item.id} className="flex py-6">
-                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                          <img
-                            src={item.thumbnail}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
+                        {item.product ? (
+                          <>
+                            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                              <img
+                                src={item.product.thumbnail}
+                                alt={item.product.title}
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </div>
 
-                        <div className="ml-4 flex flex-1 flex-col">
-                          <div>
-                            <div className="flex justify-between text-base font-medium text-gray-900">
-                              <h3>
-                                <a href={item.href}>{item.title}</a>
-                              </h3>
-                              <p className="ml-4">€ {discountedPrice(item)}</p>
+                            <div className="ml-4 flex flex-1 flex-col">
+                              <div>
+                                <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <h3>
+                                    <a href={item.product.id}>
+                                      {item.product.title}
+                                    </a>
+                                  </h3>
+                                  <p className="ml-4">
+                                    € {discountedPrice(item.product)}
+                                  </p>
+                                </div>
+                                <p className="mt-1 text-sm text-gray-500">
+                                  {item.product.brand}
+                                </p>
+                              </div>
+                              <div className="flex flex-1 items-end justify-between text-sm">
+                                <div className="text-gray-500">
+                                  <label
+                                    htmlFor="quantity"
+                                    className="mr-5 inline text-sm font-medium leading-6 text-gray-900"
+                                  >
+                                    Qty:{item.quantity}
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                            <p className="mt-1 text-sm text-gray-500">
-                              {item.brand}
-                            </p>
-                          </div>
-                          <div className="flex flex-1 items-end justify-between text-sm">
-                            <div className="text-gray-500">
-                              <label
-                                htmlFor="quantity"
-                                className="mr-5 inline text-sm font-medium leading-6 text-gray-900"
-                              >
-                                Qty:{item.quantity}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
+                          </>
+                        ) : (
+                          <p>information is missing.</p>
+                        )}
                       </li>
                     ))}
                   </ul>

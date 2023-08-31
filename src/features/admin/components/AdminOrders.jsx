@@ -125,13 +125,14 @@ export const AdminOrders = () => {
                           <div className="mr-2">
                             <img
                               className="h-6 w-6 rounded-full"
-                              src={item.thumbnail}
+                              src={item.product.thumbnail}
                             />
                           </div>
                           <span>
                             {" "}
-                            {item.title} - #{item.quantity} - €{item.price} - €
-                            {discountedPrice(item)}
+                            {item.product.title} - #{item.quantity} - €
+                            {item.product.price} - €
+                            {discountedPrice(item.product)}
                           </span>
                         </div>
                       ))}

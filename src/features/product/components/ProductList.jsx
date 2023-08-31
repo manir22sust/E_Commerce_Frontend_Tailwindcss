@@ -17,7 +17,6 @@ import {
 } from "@heroicons/react/20/solid";
 
 import {
-  fetchAllProductsAsync,
   fetchBrandsAsync,
   fetchCategoriesAsync,
   fetchProductsByFiltersAsync,
@@ -94,7 +93,6 @@ export default function ProductList() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchAllProductsAsync());
     dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
 
     //TODO : Server will filter deleted products

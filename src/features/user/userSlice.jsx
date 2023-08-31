@@ -7,25 +7,14 @@ import {
 
 const initialState = {
   userOrders: [],
-  value: 0,
   status: "idle",
-  userInfo: 10, // this info will be used in case of detailed user info,while auth will only be used  for loggedInUser id etc check
+  userInfo: null, // this info will be used in case of detailed user info,while auth will only be used  for loggedInUser id etc check
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchLoggedInUserOrdersAsync.pending, (state) => {
@@ -34,6 +23,7 @@ export const userSlice = createSlice({
       .addCase(fetchLoggedInUserOrdersAsync.fulfilled, (state, action) => {
         state.status = "idle";
         // this info can be different or more from logged-in User info
+        state.userInfo.orders = action.payload;
         state.userOrders = action.payload;
       })
       .addCase(updateUserAsync.pending, (state) => {
@@ -41,7 +31,6 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        // state.userOrders = action.payload;
         state.userInfo = action.payload;
       })
       .addCase(fetchLoggedInUserAsync.pending, (state) => {
@@ -54,9 +43,6 @@ export const userSlice = createSlice({
       });
   },
 });
-
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = userSlice.actions;
 
 export default userSlice.reducer;
 
