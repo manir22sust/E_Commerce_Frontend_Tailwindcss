@@ -2,6 +2,14 @@
 
 It provides an overview of the application's features, technical details, and instructions for running and deploying the application. The App is built using React, Redux and Redux Toolkit, along with other libraries.
 
+## Backend:
+
+https://github.com/manir22sust/mern_e_commerce_backend
+
+```bash
+git clone https://github.com/manir22sust/mern_e_commerce_backend
+```
+
 ## Features
 
 The E-commerce application includes the following features:
