@@ -15,7 +15,7 @@ export function UserProfile() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
 
-  const user1 = useSelector((state) => state.user.userInfo);
+  // const user = useSelector((state) => state.user.userInfo);
 
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);

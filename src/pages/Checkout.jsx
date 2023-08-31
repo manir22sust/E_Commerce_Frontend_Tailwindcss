@@ -26,19 +26,17 @@ export const Checkout = () => {
   // const user = useSelector((state) => state.user.userInfo);
   const currentOrder = useSelector((state) => state.order.currentOrder);
 
-  console.log(user);
-
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [payMenthod, SetPayMenthod] = useState("cash");
 
   const totalAmount = items.reduce(
-    (amount, item) => discountedPrice(item) * item.quantity + amount,
+    (amount, item) => discountedPrice(item.product) * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ ...item, quantity: +e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
   const handleRemove = (e, id) => {
     dispatch(deleteItemFromCartAsync(id));
@@ -50,7 +48,7 @@ export const Checkout = () => {
     console.log("addressIndex:", addressIndex);
 
     if (!isNaN(addressIndex)) {
-      setSelectedAddress(user.addresses[addressIndex]);
+      setSelectedAddress(user?.addresses?.[addressIndex]);
     }
   };
 
@@ -65,7 +63,7 @@ export const Checkout = () => {
         items,
         totalAmount,
         totalItems,
-        user,
+        user: user.id,
         payMenthod,
         selectedAddress,
         status: "pending", // other status can be delivered, received.
@@ -134,6 +132,11 @@ export const Checkout = () => {
                           id="firstName"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.firstName && (
+                          <p className="text-red-500">
+                            {errors.firstName.message}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -153,6 +156,11 @@ export const Checkout = () => {
                           id="lastName"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.lastName && (
+                          <p className="text-red-500">
+                            {errors.lastName.message}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -172,6 +180,9 @@ export const Checkout = () => {
                           })}
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.email && (
+                          <p className="text-red-500">{errors.email.message}</p>
+                        )}
                       </div>
                     </div>
                     <div className="sm:col-span-3">
@@ -190,6 +201,9 @@ export const Checkout = () => {
                           })}
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.phone && (
+                          <p className="text-red-500">{errors.phone.message}</p>
+                        )}
                       </div>
                     </div>
                     <div className="sm:col-span-3">
@@ -229,6 +243,11 @@ export const Checkout = () => {
                           id="street"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.street && (
+                          <p className="text-red-500">
+                            {errors.street.message}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -248,6 +267,9 @@ export const Checkout = () => {
                           id="city"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.city && (
+                          <p className="text-red-500">{errors.city.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -267,6 +289,9 @@ export const Checkout = () => {
                           id="state"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.state && (
+                          <p className="text-red-500">{errors.state.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -286,6 +311,11 @@ export const Checkout = () => {
                           id="postCode"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.postCode && (
+                          <p className="text-red-500">
+                            {errors.postCode.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -312,41 +342,42 @@ export const Checkout = () => {
                     Choose from Existing address
                   </p>
                   <ul role="list">
-                    {user.addresses.map((address, index) => (
-                      <li
-                        key={index}
-                        className="flex justify-between gap-x-6 border-2 border-solid border-gray-200 px-5 py-5"
-                      >
-                        <div className="flex gap-x-4">
-                          <input
-                            onChange={handleAddress}
-                            value={index}
-                            name="address"
-                            type="radio"
-                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                          <div className="min-w-0 flex-auto">
-                            <p className="text-sm font-semibold leading-6 text-gray-900">
-                              {address.firstName} {address.lastName}
+                    {user &&
+                      user?.addresses?.map((address, index) => (
+                        <li
+                          key={index}
+                          className="flex justify-between gap-x-6 border-2 border-solid border-gray-200 px-5 py-5"
+                        >
+                          <div className="flex gap-x-4">
+                            <input
+                              onChange={handleAddress}
+                              value={index}
+                              name="address"
+                              type="radio"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            />
+                            <div className="min-w-0 flex-auto">
+                              <p className="text-sm font-semibold leading-6 text-gray-900">
+                                {address?.firstName} {address?.lastName}
+                              </p>
+                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {address?.street}
+                              </p>
+                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {address?.postCode}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="hidden sm:flex sm:flex-col sm:items-end">
+                            <p className="text-sm leading-6 text-gray-900">
+                              Phone: {address?.phone}
                             </p>
-                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                              {address.street}
-                            </p>
-                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                              {address.postCode}
+                            <p className="text-sm leading-6 text-gray-900">
+                              {address?.city}
                             </p>
                           </div>
-                        </div>
-                        <div className="hidden sm:flex sm:flex-col sm:items-end">
-                          <p className="text-sm leading-6 text-gray-900">
-                            Phone: {address.phone}
-                          </p>
-                          <p className="text-sm leading-6 text-gray-900">
-                            {address.city}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
+                        </li>
+                      ))}
                   </ul>
 
                   <div className="mt-10 space-y-10">
@@ -411,8 +442,8 @@ export const Checkout = () => {
                       <li key={item.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
-                            src={item.thumbnail}
-                            alt={item.title}
+                            src={item.product.thumbnail}
+                            alt={item.product.title}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -421,12 +452,16 @@ export const Checkout = () => {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={item.href}>{item.title}</a>
+                                <a href={item.product.id}>
+                                  {item.product.title}
+                                </a>
                               </h3>
-                              <p className="ml-4">€{discountedPrice(item)}</p>
+                              <p className="ml-4">
+                                €{discountedPrice(item.product)}
+                              </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
-                              {item.color}
+                              {item.product.brand}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
