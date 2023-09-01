@@ -6,11 +6,11 @@ import {
   deleteItemFromCartAsync,
   updateCartAsync,
 } from "../features/cart/cartSlice";
-import { updateUserAsync } from "../features/auth/authSlice";
+// import { updateUserAsync } from "../features/auth/authSlice";
 
 import { createOrderAsync } from "../features/order/orderSlice";
 import { discountedPrice } from "../app/constants";
-// import { updateUserAsync } from "../features/user/userSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 
 export const Checkout = () => {
   const {
@@ -22,12 +22,12 @@ export const Checkout = () => {
 
   const dispatch = useDispatch();
   const items = useSelector((state) => state.cart.items);
-  const user = useSelector((state) => state.auth.loggedInUser);
-  // const user = useSelector((state) => state.user.userInfo);
+  // const user = useSelector((state) => state.auth.loggedInUser);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const currentOrder = useSelector((state) => state.order.currentOrder);
 
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [payMenthod, SetPayMenthod] = useState("cash");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
 
   const totalAmount = items.reduce(
     (amount, item) => discountedPrice(item.product) * item.quantity + amount,
@@ -44,27 +44,26 @@ export const Checkout = () => {
 
   const handleAddress = (e) => {
     const addressIndex = parseInt(e.target.value);
-    console.log("user:", user);
     console.log("addressIndex:", addressIndex);
 
     if (!isNaN(addressIndex)) {
-      setSelectedAddress(user?.addresses?.[addressIndex]);
+      setSelectedAddress(userInfo?.addresses?.[addressIndex]);
     }
   };
 
   const handlePayment = (e) => {
     console.log(e.target.value);
-    SetPayMenthod(e.target.value);
+    setPaymentMethod(e.target.value);
   };
 
   const handleOrder = (e) => {
-    if (selectedAddress && payMenthod) {
+    if (selectedAddress && paymentMethod) {
       const order = {
         items,
         totalAmount,
         totalItems,
-        user: user.id,
-        payMenthod,
+        user: userInfo.id,
+        paymentMethod,
         selectedAddress,
         status: "pending", // other status can be delivered, received.
       };
@@ -98,8 +97,8 @@ export const Checkout = () => {
                 console.log(data);
                 dispatch(
                   updateUserAsync({
-                    ...user,
-                    addresses: [...user.addresses, data],
+                    ...userInfo,
+                    addresses: [...userInfo.addresses, data],
                   })
                 );
 
@@ -342,8 +341,8 @@ export const Checkout = () => {
                     Choose from Existing address
                   </p>
                   <ul role="list">
-                    {user &&
-                      user?.addresses?.map((address, index) => (
+                    {userInfo &&
+                      userInfo?.addresses?.map((address, index) => (
                         <li
                           key={index}
                           className="flex justify-between gap-x-6 border-2 border-solid border-gray-200 px-5 py-5"
@@ -396,7 +395,7 @@ export const Checkout = () => {
                             onChange={handlePayment}
                             value="cash"
                             type="radio"
-                            checked={payMenthod === "cash"}
+                            checked={paymentMethod === "cash"}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                           />
                           <label
@@ -413,7 +412,7 @@ export const Checkout = () => {
                             onChange={handlePayment}
                             value="card"
                             type="radio"
-                            checked={payMenthod === "card"}
+                            checked={paymentMethod === "card"}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                           />
                           <label

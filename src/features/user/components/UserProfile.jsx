@@ -14,28 +14,26 @@ export function UserProfile() {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.loggedInUser);
-
-  // const user = useSelector((state) => state.user.userInfo);
-
+  const userInfo = useSelector((state) => state.user.userInfo);
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
   //TODO: we will add payment section when we work on backend
   const handleEdit = (addressUpdate, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1, addressUpdate);
     dispatch(updateUserAsync(newUser));
     selectedEditIndex(-1);
   };
 
   const handleRemove = (e, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1);
     dispatch(updateUserAsync(newUser));
   };
 
   const handleEditForm = (index) => {
     setSelectedEditIndex(index);
-    const address = user.addresses[index];
+    const address = userInfo.addresses[index];
     setValue("firstName", address.firstName);
     setValue("lastName", address.lastName);
     setValue("email", address.email);
@@ -48,8 +46,8 @@ export function UserProfile() {
 
   const handleAdd = (address) => {
     const newUser = {
-      ...user,
-      addresses: [...user.addresses, address],
+      ...userInfo,
+      addresses: [...userInfo.addresses, address],
     };
     dispatch(updateUserAsync(newUser));
     setShowAddAddressForm(false);
@@ -59,16 +57,24 @@ export function UserProfile() {
     <>
       <div className="mx-auto mt-12 max-w-7xl bg-white px-4 py-6 sm:px-6 lg:px-8">
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-          <h1 className="my-5 text-4xl font-bold tracking-tight text-gray-900">
-            Name:
-            {user.addresses[0].firstName !== "" ? (
-              <>
-                {user.addresses[0].firstName} {user.addresses[0].lastName}
-              </>
-            ) : (
-              "New User"
-            )}
-          </h1>
+          {userInfo && userInfo.addresses && userInfo.addresses.length > 0 ? (
+            <>
+              <h1 className="my-5 text-4xl font-bold tracking-tight text-gray-900">
+                Name:{" "}
+                {userInfo.addresses[0].firstName !== "" ? (
+                  <>
+                    {userInfo.addresses[0].firstName}{" "}
+                    {userInfo.addresses[0].lastName}
+                  </>
+                ) : (
+                  "New User"
+                )}
+              </h1>
+              {/* Render other user information */}
+            </>
+          ) : (
+            <div>Loading user data...</div>
+          )}
           <h3 className="my-5 text-xl font-bold tracking-tight text-red-900">
             Email address: {user.email}
           </h3>
@@ -275,7 +281,7 @@ export function UserProfile() {
           ) : null}
 
           <p className="mt-0.5 text-sm text-gray-500">Your Address:</p>
-          {user.addresses.map((address, index) => (
+          {userInfo.addresses.map((address, index) => (
             <div key={index}>
               {selectedEditIndex === index ? (
                 <form
