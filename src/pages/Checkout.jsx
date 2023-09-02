@@ -71,10 +71,6 @@ export const Checkout = () => {
     } else {
       alert("Enter Address and Payment method");
     }
-
-    //TODO: redirect to order success page
-    //TODO:clear cart after order
-    //TODO: on server change the stock number of items
   };
   const [open, setOpen] = useState(true);
 

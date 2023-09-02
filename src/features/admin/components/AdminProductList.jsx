@@ -57,11 +57,7 @@ export default function AdminProductList() {
     },
   ];
 
-  // const p = new Set([...products.map((p) => p.category)]);
-  // console.log(p);
-
   const handleFilter = (e, section, option) => {
-    // console.log(e.target.checked);
     const newFilter = { ...filter };
     if (e.target.checked) {
       if (newFilter[section.id]) {
@@ -75,7 +71,6 @@ export default function AdminProductList() {
       );
       newFilter[section.id].splice(index, 1);
     }
-    // console.log({ newFilter });
 
     setFilter(newFilter);
   };
