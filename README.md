@@ -93,14 +93,13 @@ yarn or npm
 After the installation is complete, run the following command to start the development server:
 
 ```bash
-yarn start
+yarn dev
 ```
 
 1. Open your web browser and navigate to http://localhost:5173 to see the search prototype in action.
 
 2. json-server running on
 
-http://localhost:8080/products
 http://localhost:8080/products
 http://localhost:8080/categories
 http://localhost:8080/brands
